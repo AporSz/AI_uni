@@ -6,38 +6,17 @@
 
 import csv
 
-from lab1.randomArray import solve_with_random
-
-def get_nr_of_candidates():
-    try:
-        candidates = int(input('How many candidates would you like? '))
-        if candidates < 1:
-            print('Please enter a positive integer larger than 0')
-            return get_nr_of_candidates()
-        return candidates
-    except ValueError as e:
-        print(e)
-        print('Please enter a NUMBER larger than 0')
-        return get_nr_of_candidates()
-
-def get_nr_of_problems():
-    try:
-        nr_of_problems = int(input('How many problems would you like? '))
-        if nr_of_problems < 1:
-            print('Please enter a positive integer larger than 0')
-            return get_nr_of_problems()
-        return nr_of_problems
-    except ValueError as e:
-        print(e)
-        print('Please enter a NUMBER larger than 0')
-        return get_nr_of_problems()
+from hillClimbing import solve_with_hillclimbing
+from utils import get_nr_of_problems
+from utils import get_nr_of_candidates
+from randomArray import solve_with_random
 
 SIZE = 5
 NR_OF_PROBLEMS = get_nr_of_problems()
 NR_OF_CANDIDATES = get_nr_of_candidates()
 
 def get_dataset(n):
-    with open('./archive/knapsack_5_items.csv') as csvfile:
+    with open('./lab1/archive/knapsack_5_items.csv') as csvfile:
         spamreader = csv.DictReader(csvfile, delimiter=',')
         i = 0
         problems = []
@@ -58,7 +37,8 @@ def get_dataset(n):
 def solve_problems(problems):
     for problem in range(len(problems)):
         print(f'Solution for problem nr.{problem+1}:')
-        print(solve_with_random(problems[problem]))
+        # print(solve_with_random(problems[problem], NR_OF_CANDIDATES, SIZE))
+        print(solve_with_hillclimbing(problems[problem], NR_OF_CANDIDATES, SIZE))
         print('\n==============================================\n')
 
 if __name__ == '__main__':
