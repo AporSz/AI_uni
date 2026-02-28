@@ -64,3 +64,19 @@ Based on your current implementation of the hill climbing algorithm for the
   (e.g., 20 or 100 items), this approach will fail. Using a more generalized
   method to generate a random bit string of any length will make your solver
   applicable to any problem size.
+
+* Diversity vs. Intensity: Hill climbing is great at "intensity" (refining a
+local solution) but weak at "diversity" (exploring different areas of the
+solution space). If you find your results aren't improving much even with
+many candidates, your random restarts might be landing too close together,
+or your search might be getting "trapped" too early.
+* The "Plateau" Problem: In discrete problems like Knapsack, you might find
+"plateaus"—regions where flipping a bit doesn't change the total value
+(perhaps because the bag is full). A basic hill climber will stop here.
+Deciding whether to allow "sideways" moves (moving to a neighbor with the
+same value) can sometimes help you slide across a plateau to find a new
+upward slope.
+* Scaling: As you move from 5 items to 50 or 100, the "neighborhood" (the
+number of possible 1-bit flips) grows linearly, but the total solution
+space grows exponentially ($2^n$). You might find that the "Steepest
+Ascent" approach starts taking much longer per step, which is a good signal
