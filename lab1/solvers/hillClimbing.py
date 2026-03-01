@@ -1,7 +1,7 @@
 import random
 import numpy as np
 
-from utils import calculate_value
+from lab1.utils.utils import calculate_value
 
 def generate_candidates(old_candidate, size):
     candidates = []

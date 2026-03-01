@@ -1,38 +1,19 @@
 ## you have n objects with weight and value
-## try to find a good solution to maximise the price of the total value of objects
+## try to find a good solution to maximize the price of the total value of objects
 
 ## parameters:
 ##      nr of candidates
 
 import csv
 
-from hillClimbing import solve_with_hillclimbing
-from utils import get_nr_of_problems
-from utils import get_nr_of_candidates
-from randomArray import solve_with_random
+from lab1.solvers.hillClimbing import solve_with_hillclimbing
+from lab1.utils.data_loader import DataLoader
+from lab1.utils.utils import get_nr_of_problems
+from lab1.utils.utils import get_nr_of_candidates
 
 SIZE = 5
 NR_OF_PROBLEMS = get_nr_of_problems()
 NR_OF_CANDIDATES = get_nr_of_candidates()
-
-def get_dataset(n):
-    with open('./lab1/archive/knapsack_5_items.csv') as csvfile:
-        spamreader = csv.DictReader(csvfile, delimiter=',')
-        i = 0
-        problems = []
-        for row in spamreader:
-            weights_str = row['Weights'].strip("[]")
-            prices_str = row['Prices'].strip("[]")
-            capacity_str = row['Capacity']
-            weights = [int(x) for x in weights_str.split()]
-            prices = [int(x) for x in prices_str.split()]
-            capacity = int(capacity_str)
-            problems.append([weights, prices, capacity])
-            i += 1
-            if i == n:
-                break
-
-        return problems
 
 def solve_problems(problems):
     for problem in range(len(problems)):
@@ -42,5 +23,6 @@ def solve_problems(problems):
         print('\n==============================================\n')
 
 if __name__ == '__main__':
-    problems_to_solve = get_dataset(NR_OF_PROBLEMS)
+    dataloader = DataLoader('./lab1/data/knapsack_5_items.csv', NR_OF_PROBLEMS)
+    problems_to_solve = dataloader.get_data()
     solve_problems(problems_to_solve)

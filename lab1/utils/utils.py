@@ -39,4 +39,5 @@ def calculate_value(candidate, size, weights=None, prices=None, capacity=None, p
         return 0
     return current_value
 
-# print(calculate_value([1],1,problem=[[1],[1],1]))
+if __name__ == "__main__":
+    print(calculate_value([1],1,problem=[[1],[1],1]))

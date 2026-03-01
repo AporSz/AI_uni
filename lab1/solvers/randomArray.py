@@ -1,7 +1,7 @@
 import random
 import numpy as np
 
-from utils import calculate_value
+from lab1.utils.utils import calculate_value
 
 def solve_with_random(problem, nr_of_candidates, size):
     weights, prices, capacity = problem

@@ -1,0 +1,364 @@
+ > do not write any code just suggest a way to update my project structure such that it's more proffessional. explain
+   what should go where, if i need any new files/classes. i'm talking about @lab1/
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadManyFiles Will attempt to read and concatenate files using patterns:                                      │
+│                                                                                                                  │
+│ ReadManyFiles Result (Target Dir: C:\Users\szaka\PycharmProjects\AI_uni)                                         │
+│                                                                                                                  │
+│ Successfully read and concatenated content from 7 file(s).                                                       │
+│                                                                                                                  │
+│ Processed Files:                                                                                                 │
+│  - lab1/archive/knapsack_5_items.csv                                                                             │
+│  - lab1/archive/knapsack_5_items_new.csv                                                                         │
+│  - lab1/hillClimbing.py                                                                                          │
+│  - lab1/improvements.txt                                                                                         │
+│  - lab1/main.py                                                                                                  │
+│  - lab1/randomArray.py                                                                                           │
+│  - lab1/utils.py                                                                                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ To transform your current script-based approach into a professional software architecture, you should transition from
+  a procedural structure to an Object-Oriented (OO) structure. This separates the "Problem" (what we are solving) from
+  the "Solver" (how we are solving it).
+
+
+  Here is a suggested structure for your @lab1 project:
+
+  1. New Directory Structure
+  Organizing by responsibility makes the code easier to maintain and test.
+
+
+    1 lab1/
+    2 ├── data/               # Move CSVs here
+    3 │   └── knapsack_5_items.csv
+    4 ├── models/             # Business logic / Objects
+    5 │   ├── __init__.py
+    6 │   └── knapsack.py     # KnapsackProblem class
+    7 ├── solvers/            # Algorithm implementations
+    8 │   ├── __init__.py
+    9 │   ├── base.py         # Abstract BaseSolver class
+   10 │   ├── hill_climbing.py# HillClimbingSolver class
+   11 │   └── random_search.py# RandomSolver class
+   12 ├── utils/              # Helper functions
+   13 │   ├── __init__.py
+   14 │   ├── config.py       # Input/Parameters handling
+   15 │   └── data_loader.py  # CSV parsing logic
+   16 ├── main.py             # Entry point
+   17 └── README.md           # Lab documentation
+
+  ---
+
+  2. Suggested Classes and Responsibilities
+
+
+  Models Layer (`models/knapsack.py`)
+   * Class `KnapsackProblem`: Instead of passing lists of weights and prices everywhere, wrap them in a class.
+       * Attributes: weights, prices, capacity, size.
+       * Methods: evaluate(bitstring) — Move the calculate_value logic here. The problem should know how to score a
+         candidate solution.
+
+
+  Solvers Layer (`solvers/`)
+   * Class `BaseSolver` (in `base.py`): A professional project uses an Interface. This class defines a standard solve()
+     method that all algorithms must implement. This allows you to swap Hill Climbing for a Genetic Algorithm seamlessly
+     in main.py.
+   * Class `HillClimbingSolver`: Inherits from BaseSolver.
+       * Encapsulates parameters like nr_of_candidates and max_iterations.
+       * Includes private methods for _generate_neighbors().
+   * Class `RandomSolver`: Inherits from BaseSolver. Implements the same solve() method but using the random strategy.
+
+
+  Data Layer (`utils/data_loader.py`)
+   * Module `DataLoader`: Move the CSV parsing logic from main.py to here.
+       * It should return a list of KnapsackProblem objects.
+       * This keeps your algorithm logic "clean" of file-handling code.
+
+
+  Execution Layer (`main.py`)
+   * This file should be very short. Its only job is to:
+       1. Call the DataLoader.
+       2. Get parameters from utils/config.py.
+       3. Initialize a Solver.
+       4. Loop through the problems and print results.
+
+  ---
+
+  3. Key Professional Upgrades
+
+
+   1. Type Hinting: Use Python's type hints (e.g., def solve(self, problem: KnapsackProblem) -> List[int]:). This is
+      standard in professional environments for readability and debugging.
+   2. Encapsulation: Your calculate_value currently relies on global-style parameter passing. By making it a method of
+      KnapsackProblem, you ensure that a "Solver" can't accidentally use the weights from Problem A to solve Problem B.
+   3. The `if __name__ == "__main__":` Pattern: Ensure every file that can be run as a script uses this block, but keep
+      logic inside classes/functions to prevent side effects during imports.
+   4. Logging: Replace print statements with the logging module. This allows you to turn off debug info or save it to a
+      file without changing the code.
+   5. Configuration: Instead of input() prompts (which break automated testing), consider using argparse or a
+      .yaml/.json config file to set the number of candidates and problem sizes.
+
+
+  Why this is better:
+   * Scalability: If Lab 2 asks for a "Simulated Annealing" solver, you just add one file in solvers/ and change one
+     line in main.py.
+   * Testability: You can now write a unit test for just the KnapsackProblem.evaluate() method without running the whole
+     CSV loop.
+   * Readability: A new developer can look at the folders and immediately know where the algorithms end and the data
+     handling begins.
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ > let's start simple, suggest one thing to change and we'll go over all the things you suggested. where do i start?
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+✦ The best place to start is Encapsulation.
+
+  Instead of passing the "problem" around as a list of lists [weights, prices, capacity], create a `KnapsackProblem`
+  class.
+
+
+  The Change: Create models.py
+  Create a new file named models.py inside lab1/ and define a KnapsackProblem class there.
+
+
+  Why this is the first step:
+   1. Cleaner Function Signatures: Currently, your functions in hillClimbing.py and randomArray.py have long parameter
+      lists or take a "problem" list that they have to manually unpack. With a class, you just pass one object: def
+      solve(problem: KnapsackProblem).
+   2. Unified Logic: Move the calculate_value logic from utils.py into this class as a method (e.g.,
+      problem.evaluate(solution)). This makes sense because the problem itself is what defines the rules for weight and
+      value.
+   3. Data Integrity: You can ensure that weights and prices are always the same length and that capacity is a positive
+      number right when the object is created, rather than checking it inside your loops.
+
+  In short: You are moving from "data being a passive list" to "data being an intelligent object that knows its own
+  rules."
+
+
+  Does this make sense as a starting point? If so, we can talk about how to integrate this class into your main.py next.
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ > how should i implement my penalty for excess weight in @lab1/models/models.py also, should i add access modifiers to
+   my classes?
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadManyFiles Will attempt to read and concatenate files using patterns:                                      │
+│                                                                                                                  │
+│ ReadManyFiles Result (Target Dir: C:\Users\szaka\PycharmProjects\AI_uni)                                         │
+│                                                                                                                  │
+│ Successfully read and concatenated content from 1 file(s).                                                       │
+│                                                                                                                  │
+│ Processed Files:                                                                                                 │
+│  - lab1/models/models.py                                                                                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ Regarding the penalty implementation and access modifiers, here is how to handle them professionally:
+
+
+  1. The Penalty Implementation
+  Your current evaluate method has a logical flaw: the and current_capacity < self.capacity check in the loop stops
+  "counting" as soon as you hit the limit. For a Hill Climber to "feel" its way back to a valid solution, it needs to
+  know how much it exceeded the limit.
+
+
+  Suggested changes for the penalty:
+   * Remove the capacity check inside the loop: Calculate the total weight of all items selected in the bitstring.
+   * Proportional Penalty: Subtract the penalty only after the loop.
+   * Safety Floor: Ensure the evaluate function doesn't return a negative value (unless your algorithm specifically
+     handles negative fitness), as a value of 0 is usually the "rock bottom" for knapsack.
+
+  2. Access Modifiers in Python
+  Python does not have strict access modifiers like private or public in Java/C#. Instead, it uses conventions:
+
+
+   * Public (`self.weights`): Accessible from anywhere. Use this for data the solver needs to see.
+   * Internal/Protected (`self._weights`): A single underscore tells other developers, "This is internal, don't change
+     it from outside the class."
+   * Private (`self.__weights`): Double underscores trigger "name mangling" to prevent subclasses from accidentally
+     overwriting the attribute. This is rarely needed in projects like this.
+
+  ---
+
+  Implementation Suggestion for models.py
+
+
+    1 class KnapsackProblem:
+    2     def __init__(self, weights, values, capacity, penalty_ratio=0.5):
+    3         # ... validation logic ...
+    4         self._weights = weights
+    5         self._values = values
+    6         self._capacity = capacity
+    7         self._penalty_ratio = penalty_ratio
+    8
+    9     @property
+   10     def capacity(self):
+   11         return self._capacity
+   12
+   13     def evaluate(self, candidate):
+   14         """
+   15         Calculates fitness.
+   16         If weight > capacity, reduces value proportional to excess weight.
+   17         """
+   18         total_value = 0
+   19         total_weight = 0
+   20
+   21         for i, bit in enumerate(candidate):
+   22             if bit == 1:
+   23                 total_weight += self._weights[i]
+   24                 total_value += self._values[i]
+   25
+   26         if total_weight > self._capacity:
+   27             excess = total_weight - self._capacity
+   28             # The penalty is proportional to how much we went over
+   29             penalty = excess * self._penalty_ratio
+   30             return max(0, total_value - penalty)
+   31
+  Why this approach?
+   1. Gradient for Solvers: By calculating the full total_weight, a Hill Climber can compare two "invalid" solutions. If
+      Solution A is 5kg over and Solution B is 50kg over, the penalty logic will correctly show that Solution A is
+      "better" (closer to being valid), helping the algorithm find the boundary.
+   2. Properties: Using @property for capacity makes it read-only from the outside. This is a professional way to expose
+      data while preventing a Solver from accidentally changing the problem's rules.
+   3. Flexible Penalty: Moving penalty_ratio to the __init__ allows you to experiment with different "hardnesses" of
+      constraints without changing the class code.
+
+
+  Next Step: Once your model is solid, I suggest we move the CSV loading logic into a dedicated DataLoader class to keep
+  main.py clean. Ready for that?
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ > now suggest the next step, where to move which file, what changes to make, do not suggest code, but rather suggest
+   changes in words
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+✦ The next step is to separate your Data Persistence logic from your Application Logic.
+
+
+  Currently, main.py is "polluted" with code that understands how to parse a CSV string and strip brackets. If you
+  change your data format to JSON tomorrow, you’d have to rewrite your main execution script.
+
+  1. Create a DataLoader Class
+  Create a new file called data_loader.py (suggested location: lab1/utils/data_loader.py).
+
+
+  The Changes:
+   * Move the logic from get_dataset in main.py into a method within this new class.
+   * Transform the output: Instead of returning a list of lists like [[weights], [prices], capacity], the loader should
+     return a list of KnapsackProblem objects.
+   * Handle Paths Professionally: The class should take the CSV file path as a parameter so it isn't hardcoded inside
+     the logic.
+
+
+  2. Move the Data Files
+  Create a folder called lab1/data/ and move your CSV files there. This separates your "assets" from your "source code."
+
+
+  3. Update main.py
+  Simplify main.py so it only coordinates the high-level steps. It should:
+   1. Initialize the DataLoader with a file path.
+   2. Ask the loader for the problems (which now come back as a list of KnapsackProblem objects).
+   3. Pass those objects to your solvers.
+
+
+  Why this is the next step:
+   * Abstraction: Your solvers and main script shouldn't care if the data came from a CSV, a database, or was generated
+     randomly. They only care about getting a KnapsackProblem object.
+   * Cleanliness: It removes string manipulation (like .strip("[]")) from your main entry point, making the project much
+     easier to read.
+
+
+  Would you like to move on to this, or should we look at how to organize the Solvers into classes first?
+
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+ > check if what i did was as you suggested. if yes move on the next suggestion
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  Shell dir /s /b lab1 [current working directory C:\Users\szaka\PycharmProjects\AI_uni] (Listing the contents… │
+│                                                                                                                  │
+│ Get-ChildItem : A positional parameter cannot be found that accepts argument 'lab1'.                             │
+│ At line:1 char:1                                                                                                 │
+│ + dir /s /b lab1                                                                                                 │
+│ + ~~~~~~~~~~~~~~                                                                                                 │
+│     + CategoryInfo          : InvalidArgument: (:) [Get-ChildItem], ParameterBindingException                    │
+│     + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Commands.GetChildItemComm         │
+│    and                                                                                                           │
+│                                                                                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFolder lab1                                                                                               │
+│                                                                                                                  │
+│ Listed 6 item(s).                                                                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFolder lab1/data                                                                                          │
+│                                                                                                                  │
+│ Listed 2 item(s).                                                                                                │
+│                                                                                                                  │
+│ ✓  ReadFolder lab1/utils                                                                                         │
+│                                                                                                                  │
+│ Listed 2 item(s).                                                                                                │
+│                                                                                                                  │
+│ ✓  ReadFolder lab1/models                                                                                        │
+│                                                                                                                  │
+│ Listed 1 item(s).                                                                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile lab1\utils\data_loader.py                                                                            │
+│                                                                                                                  │
+│                                                                                                                  │
+│ ✓  ReadFile lab1\models\models.py                                                                                │
+│                                                                                                                  │
+│                                                                                                                  │
+│ ✓  ReadFile lab1\main.py                                                                                         │
+│                                                                                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓  ReadFile lab1\utils\data_loader.py                                                                            │
+│                                                                                                                  │
+✦ Your implementation of the DataLoader and the KnapsackProblem model is spot on. You’ve successfully separated your
+  data parsing from your business logic, and your main.py is now much more readable.
+
+
+  Observations:
+   * Encapsulation: Your KnapsackProblem now correctly calculates its own value, including the proportional penalty.
+   * Data Handling: DataLoader successfully abstracts the CSV complexity.
+   * Project Structure: Moving the CSVs to a data/ folder is a great professional touch.
+
+  ---
+
+
+  Next Step: Solver Abstraction (The Strategy Pattern)
+
+  Currently, your solvers (hillClimbing.py and randomArray.py) are likely still implemented as standalone functions that
+  manually unpack the problem data. To make this professional, we should treat "Solving" as a service.
+
+
+  The Goal: Create a standard way to "Solve" a problem so that you can swap algorithms without changing the rest of your
+  code.
+
+
+  1. Define a BaseSolver
+  Create a file called lab1/solvers/base.py. In it, define an Abstract Base Class (using Python's abc module is the
+  professional way).
+   * This class should define a single method: solve(self, problem: KnapsackProblem).
+   * This ensures that any solver you write in the future (Genetic Algorithm, Tabu Search, etc.) follows the same
+     "contract."
+
+
+  2. Convert Solvers to Classes
+  Move your existing algorithms into classes within the solvers/ directory:
+   * `HillClimbingSolver`: Inherits from BaseSolver. It should take parameters like nr_of_restarts or max_iterations in
+     its __init__.
+   * `RandomSearchSolver`: Inherits from BaseSolver.
+
+
+  3. Update the Implementation
+  Inside these classes, you will update the logic to use the problem.evaluate(candidate) method you just wrote. This
+  means the solver no longer needs to know about weights or prices—it only needs to know how to generate a bitstring and
+  ask the problem, "How good is this?"
+
+
+  Why this is the next step:
+   * Interchangeability: In your main.py, you could literally write solver = HillClimbingSolver() or solver =
+     RandomSearchSolver(), and the rest of the code remains identical.
+   * State Management: If a solver needs to keep track of its "best found so far" or "number of evaluations," it can
+     store that in self rather than passing it through 5 different function arguments.
+
+
+  Does this sound like a good next move? If so, start by defining that base interface!
