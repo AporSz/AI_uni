@@ -1,27 +1,29 @@
 import random
 import numpy as np
 
-from lab1.utils.utils import calculate_value
+from lab1.solvers.base import BaseSolver
 
-def solve_with_random(problem, nr_of_candidates, size):
-    weights, prices, capacity = problem
 
-    best_solution = None
-    max_value = 0
+class RandomSearchSolver(BaseSolver):
+    def __init__(self, nr_of_candidates):
+        self._nr_of_candidates = nr_of_candidates
 
-    i = 0
-    while i < nr_of_candidates:
-        r = random.randint(1, (2 ** size )- 1)
-        random_array = np.unpackbits(np.uint8(r))[3:]
+    def solve(self, problem):
+        best_solution = None
+        max_value = 0
+        size = len(problem)
 
-        value = calculate_value(random_array, size, weights, prices, capacity)
-        if value == 0:
-            i -= 1
+        i = 0
+        while i < self._nr_of_candidates:
+            r = random.randint(1, (2 ** size ) - 1)
+            random_array = np.unpackbits(np.uint8(r))[3:]
 
-        if max_value < value:
-            max_value = value
-            best_solution = [random_array,weights,prices,max_value]
+            value = problem.evaluate(random_array)
 
-        i += 1
+            if max_value < value and problem.is_feasible(random_array):
+                max_value = value
+                best_solution = [problem, random_array, max_value]
 
-    return best_solution
+            i += 1
+
+        return best_solution

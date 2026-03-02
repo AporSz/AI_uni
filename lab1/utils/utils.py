@@ -24,20 +24,3 @@ def get_nr_of_problems():
         print(e)
         print('Please enter a NUMBER larger than 0 but smaller than 10000')
         return get_nr_of_problems()
-
-def calculate_value(candidate, size, weights=None, prices=None, capacity=None, problem=None):
-    if problem is not None:
-        weights, prices, capacity = problem
-
-    current_capacity = 0
-    current_value = 0
-    for i in range(size):
-        if candidate[i] == 1:
-            current_capacity += weights[i]
-            current_value += prices[i]
-    if current_capacity > capacity:
-        return 0
-    return current_value
-
-if __name__ == "__main__":
-    print(calculate_value([1],1,problem=[[1],[1],1]))

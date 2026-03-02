@@ -1,59 +1,62 @@
 import random
 import numpy as np
 
-from lab1.utils.utils import calculate_value
+from lab1.solvers.base import BaseSolver
 
-def generate_candidates(old_candidate, size):
-    candidates = []
+class HillClimbingSolver(BaseSolver):
+    def __init__(self, nr_of_candidates):
+        self._nr_of_candidates = nr_of_candidates
 
-    for i in range(size):
-        candidate = old_candidate.copy()
-        if candidate[i] == 0:
-            candidate[i] = 1
-        else:
-            candidate[i] = 0
+    def solve(self, problem):
+        best_solution = None
+        max_value = 0
+        size = len(problem)
 
-        candidates.append(candidate)
-    
-    return candidates
+        i = 0
+        while i < self._nr_of_candidates:
+            r = random.randint(0, (2 ** size ) - 1)
+            random_array = np.unpackbits(np.uint8(r))[3:]
 
-def hill_climbing(old_candidate, old_max, size, problem):
-    max_value = 0
-    best_candidate = None
+            value = problem.evaluate(random_array)
 
-    candidates = generate_candidates(old_candidate, size)
+            solution, value = self.hill_climbing(random_array, value, problem)
 
-    for candidate in candidates:
-        value = calculate_value(candidate, size, problem=problem)
+            if value > max_value:
+                max_value = value
+                best_solution = [str(problem), solution, value]
 
-        if value > max_value:
-            max_value = value
-            best_candidate = candidate
+            i += 1
 
-    if old_max >= max_value:
-        return old_candidate, old_max
+        return best_solution
 
-    return hill_climbing(best_candidate, max_value, size, problem)
+    def generate_candidates(self, old_candidate):
+        candidates = []
 
+        for i in range(len(old_candidate)):
+            candidate = old_candidate.copy()
+            if candidate[i] == 0:
+                candidate[i] = 1
+            else:
+                candidate[i] = 0
 
-def solve_with_hillclimbing(problem, nr_of_candidates, size):
-    best_solution = None
-    max_value = 0
+            candidates.append(candidate)
 
-    i = 0
-    while i < nr_of_candidates:
-        r = random.randint(0, np.pow(2, size) - 1)
-        random_array = np.unpackbits(np.uint8(r))[3:]
+        return candidates
 
-        value = calculate_value(random_array, size, problem=problem)
+    def hill_climbing(self, old_candidate, old_max, problem):
+        max_value = 0
+        best_candidate = None
 
-        solution, value = hill_climbing(random_array, value, size, problem)
+        candidates = self.generate_candidates(old_candidate)
 
-        if value > max_value:
-            max_value = value
-            best_solution = [problem, solution, value]
+        for candidate in candidates:
+            value = problem.evaluate(candidate)
 
-        i += 1
+            if value > max_value and problem.is_feasible(candidate):
+                max_value = value
+                best_candidate = candidate
 
-    return best_solution
+        if old_max >= max_value:
+            return old_candidate, old_max
 
+        return self.hill_climbing(best_candidate, max_value, problem)
