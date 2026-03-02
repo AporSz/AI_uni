@@ -19,7 +19,7 @@ def solve_problems(problems):
     solver = HillClimbingSolver(NR_OF_CANDIDATES)
     for problem in range(len(problems)):
         print(f'Solution for problem nr.{problem+1}:')
-        # print(solve_with_random(problems[problem], NR_OF_CANDIDATES, SIZE))
+
         print(solver.solve(problems[problem]))
         print('\n==============================================\n')
 
