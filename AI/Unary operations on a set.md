@@ -1,0 +1,2 @@
+- negation of a set
+- cardinality of a set

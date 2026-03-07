@@ -1,0 +1,3 @@
+- intersection
+- union
+- difference

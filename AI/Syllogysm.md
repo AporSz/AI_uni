@@ -1,0 +1,5 @@
+All men are mortal.  
+Socrates is a man.  
+Therefore, Socrates is mortal.
+
+Credited to [[Aristotle]]
