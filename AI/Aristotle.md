@@ -1,8 +1,8 @@
 He named animals and plants automatons.
 
 He split human thoughts in two kinds:
-- technology
-- philosophy:
+- Technology
+- [[Philosophy]]:
 	- it means asking the questions
 	- science:
 		- is a subset of philosophy

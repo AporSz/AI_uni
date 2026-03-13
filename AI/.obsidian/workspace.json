@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "a2ffe46fe9b5e697",
+        "id": "cee9b93ce130ddcd",
         "type": "tabs",
         "children": [
           {
-            "id": "973d1443485b98cf",
+            "id": "16590f89e494ddc1",
             "type": "leaf",
             "state": {
-              "type": "graph",
+              "type": "empty",
               "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           }
         ]
@@ -176,26 +176,36 @@
       "bases:Create new base": false
     }
   },
-  "active": "973d1443485b98cf",
+  "active": "16590f89e494ddc1",
   "lastOpenFiles": [
-    "Decision Tree.md",
+    "Problem.md",
+    "Information.md",
+    "Quantum slit experiment.md",
+    "Philosphy.md",
+    "Search.md",
+    "Zeitgeist.md",
+    "2.md",
+    "Bit.md",
+    "1.md",
+    "Einstein.md",
+    "Socrates.md",
+    "Aristotle.md",
+    "Logic.md",
+    "Logos.md",
+    "Thermodynamics.md",
     "Claude Shannon Entropy Formula.md",
+    "Particles.md",
+    "Light.md",
+    "Decision Tree.md",
     "Information Gain.md",
     "Images/Pasted image 20260309145619.png",
     "Images",
     "Images/Pasted image 20260309144843.png",
-    "Logic.md",
     "Dichotomy.md",
     "Unary operations on a set.md",
     "Building Blocks of Informathics.md",
     "Binary operation on  a set.md",
     "Syllogysm.md",
-    "Socrates.md",
-    "Scientific method.md",
-    "Fundemental Principle of Programming.md",
-    "Divide et Impera.md",
-    "Axiom.md",
-    "Aristotle.md",
-    "Welcome.md"
+    "Scientific method.md"
   ]
 }

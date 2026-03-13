@@ -15,3 +15,7 @@ Philosophy -> [[Socrates]] -> Plato -> [[Aristotle]] -> Alexander the Great -> L
 
 [[Axiom]]
 
+It's basically [[Boolean Algebra]].
+
+Mathematics is a subset logic.
+
