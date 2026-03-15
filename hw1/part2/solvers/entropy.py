@@ -10,6 +10,9 @@ class Entropy:
         if len(self._attributes) != 0:
             return self._attributes
 
+        if len(self._data) == 0:
+            return None
+
         attributes = {}
         for key, value in self._data[0].items():
             attributes[key] = {}
@@ -56,7 +59,29 @@ class Entropy:
         return gain
 
     def make_tree(self):
-        pass
+        from hw1.part2.datastructures.decision_tree import Node
+
+        max_information_gain, best_attribute = 0, None
+        for attribute in self._attributes:
+            gain = self.calculate_information_gain(attribute)
+            if gain > max_information_gain and attribute != 'Play Tennis':
+                max_information_gain = gain
+                best_attribute = attribute
+
+        if best_attribute is None:
+            return Node(f"Play Tennis: {self._data[0]['Play Tennis']}", {})
+
+        tree_data = {}
+        for value in self._attributes[best_attribute]:
+            tree_data[value] = []
+
+        for entry in self._data:
+            tree_data[entry[best_attribute]].append(entry)
+
+        root = Node(best_attribute, tree_data)
+
+        return root
+
 
     def __str__(self):
         acc = ""
