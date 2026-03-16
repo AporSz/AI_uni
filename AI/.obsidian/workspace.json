@@ -13,15 +13,40 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Information Gain.md",
+                "file": "Decision Tree.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Information Gain"
+              "title": "Decision Tree"
+            }
+          },
+          {
+            "id": "673067a4593241bb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Fuzzy Decision Tree.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Fuzzy Decision Tree"
+            }
+          },
+          {
+            "id": "e50b075cbb655245",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -182,26 +207,28 @@
       "bases:Create new base": false
     }
   },
-  "active": "16590f89e494ddc1",
+  "active": "e50b075cbb655245",
   "lastOpenFiles": [
-    "Information Gain.md",
+    "Logos.md",
+    "Electron.md",
+    "Aristotle.md",
+    "Philosphy.md",
+    "Fuzzy Decision Tree.md",
     "Decision Tree.md",
+    "Information Gain.md",
     "Claude Shannon Entropy Formula.md",
     "Search.md",
     "Proton.md",
     "Problem.md",
     "Information.md",
     "Quantum slit experiment.md",
-    "Philosphy.md",
     "Zeitgeist.md",
     "2.md",
     "Bit.md",
     "1.md",
     "Einstein.md",
     "Socrates.md",
-    "Aristotle.md",
     "Logic.md",
-    "Logos.md",
     "Thermodynamics.md",
     "Particles.md",
     "Light.md",
@@ -210,8 +237,6 @@
     "Images/Pasted image 20260309144843.png",
     "Dichotomy.md",
     "Unary operations on a set.md",
-    "Building Blocks of Informathics.md",
-    "Binary operation on  a set.md",
-    "Syllogysm.md"
+    "Building Blocks of Informathics.md"
   ]
 }
