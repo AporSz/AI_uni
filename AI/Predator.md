@@ -1,0 +1,1 @@
+Some organisms consume others through phagocytosis. This how predators and [[Prey]] got formed.

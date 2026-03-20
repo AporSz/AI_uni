@@ -1,15 +1,13 @@
 You can represent a problem with the following:
 	P = {Vi belongs to DVi}
 
-Most basic way to solve it is brute force.
+The problem is an N dimensional hyperplane. Each point in the hyperplane can have a value decided by a [[Fitness Function]].
 
-Brute force:
+Solving a problem is the [[Search]] of solutions.
 
-for a0 in Dv0:
-	for a1 in Dv1:
-		...
-		...
-			for an in Dvn:
-				candidate(a0, a1, ..., an) <-- Position
+Most basic way to solve it is [[Brute Force]]. [[Backtracking]] is an improvement on [[Brute Force]].
 
-Can be optimized with [[Divide et Impera]] or Dynamic Programming or Greedy.
+[[Brute Force]] can be optimized with [[Divide et Impera]] or [[Dynamic Programming]] or [[Greedy]].
+
+
+

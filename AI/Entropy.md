@@ -1,0 +1,1 @@
+Measure of disorder, randomness or uncertainty withing a system.

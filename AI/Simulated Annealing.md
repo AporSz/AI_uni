@@ -1,0 +1,1 @@
+With time the probability of "climbers" have less and less chance of moving away from a local optimum.

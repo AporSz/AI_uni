@@ -40,3 +40,16 @@ Technology:
 - Implementation
 
 Good ideas lead to better technology leading to better observations leading to better ideas and so on.
+
+Search:
+- local
+OR
+- global
+
+- discrete
+OR
+- continuous
+
+- exhaustive
+OR
+- heuristic, stochastic
