@@ -76,7 +76,9 @@ class Entropy:
             tree_data[value] = []
 
         for entry in self._data:
-            tree_data[entry[best_attribute]].append(entry)
+            aux = entry[best_attribute]
+            del entry[best_attribute]
+            tree_data[aux].append(entry)
 
         root = Node(best_attribute, tree_data)
 
