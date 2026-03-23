@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cvf33tgjh3krf"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ojufs"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_ujjr2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s64y5"]
+transparency = 1
+albedo_color = Color(0.6784314, 0.6784314, 0.6784314, 0.19607843)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_x3n4t"]
+
+[node name="border" type="Node3D" unique_id=81790014]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=905413177]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_ojufs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=710525306]
+shape = SubResource("WorldBoundaryShape3D_ujjr2")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D" unique_id=330489048]
+material_override = SubResource("StandardMaterial3D_s64y5")
+mesh = SubResource("PlaneMesh_x3n4t")

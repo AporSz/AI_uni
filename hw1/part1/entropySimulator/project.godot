@@ -8,8 +8,21 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="EntropySimulator"
-config/features=PackedStringArray("4.5", "Forward Plus")
+run/main_scene="uid://cmleke5i6q48r"
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[physics]
+
+common/physics_ticks_per_second=120
+3d/physics_engine="Jolt Physics"
+jolt_physics_3d/simulation/penetration_slop=0.0
+jolt_physics_3d/simulation/speculative_contact_distance=0.0
+jolt_physics_3d/simulation/bounce_velocity_threshold=0.0
