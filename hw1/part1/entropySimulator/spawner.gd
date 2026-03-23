@@ -1,7 +1,7 @@
 extends Node3D
 
 @export var particle_scene: PackedScene
-@export var number_of_particles: int = 100
+@export var number_of_particles: int = 1000
 # Since your box is 10x10x10, an 8x8x8 spawn area keeps them safely away from the walls initially
 @export var spawn_area_size: float = 8.0 
 

@@ -4,6 +4,12 @@
 [ext_resource type="Script" uid="uid://vsv3olaeqhha" path="res://freecam.gd" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://djkhdus4y3okx" path="res://spawner.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c523c1jncc02b" path="res://scenes/particle.tscn" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://dpx2mp5l71oot" path="res://gridvisualiser.gd" id="5_lquwl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 1, 1, 0.39215687)
 
 [node name="main" type="Node3D" unique_id=1762816396]
 
@@ -37,3 +43,10 @@ script = ExtResource("2_0xm2m")
 script = ExtResource("3_h2yge")
 particle_scene = ExtResource("4_1bvp3")
 spawn_area_size = 4.0
+
+[node name="gridvisualiser" type="MultiMeshInstance3D" parent="." unique_id=298877851 node_paths=PackedStringArray("spawner_node")]
+material_override = SubResource("StandardMaterial3D_7mycd")
+script = ExtResource("5_lquwl")
+spawner_node = NodePath("../spawner")
+color_cold = Color(0, 0.2, 0.5019608, 0.3137255)
+color_hot = Color(1, 0, 0, 0.3137255)

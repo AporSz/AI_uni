@@ -3,7 +3,11 @@ extends CharacterBody3D
 @export var start_speed: float = 10.0
 @export var mass: float = 1.0 
 
+# Grab a reference to the mesh node as soon as the particle is created
+@export var mesh: MeshInstance3D
+
 func _ready():
+	# 1. SET RANDOM VELOCITY
 	# Give the particle a random starting direction
 	var random_dir = Vector3(
 		randf_range(-1.0, 1.0), 
@@ -11,6 +15,23 @@ func _ready():
 		randf_range(-1.0, 1.0)
 	).normalized()
 	velocity = random_dir * start_speed
+	
+	# 2. SET RANDOM COLOR
+	# Get whatever material is currently on the mesh
+	var mat = mesh.get_active_material(0)
+	
+	if mat:
+		# Duplicate it so this particle doesn't share its color with the others
+		var unique_mat = mat.duplicate()
+		
+		# Generate a random color. 
+		# using Color.from_hsv() instead of pure random RGB ensures the 
+		# colors are bright and vibrant, avoiding muddy browns and dark grays!
+		var random_hue = randf() # A random number between 0.0 and 1.0
+		unique_mat.albedo_color = Color.from_hsv(random_hue, 0.8, 0.9)
+		
+		# Apply the new unique material back to the mesh
+		mesh.set_surface_override_material(0, unique_mat)
 
 func _physics_process(delta: float):
 	var collision = move_and_collide(velocity * delta)

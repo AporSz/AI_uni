@@ -8,22 +8,22 @@
 transparency = 1
 albedo_color = Color(0.011764706, 0.42352942, 1, 0.19607843)
 emission_enabled = true
-emission = Color(0, 3.0956461, 5.912981, 1)
+emission = Color(0, 0.5019608, 1, 1)
 emission_energy_multiplier = 2.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_pxd2d"]
 material = SubResource("StandardMaterial3D_kgu82")
 
-[node name="particle" type="Node3D" unique_id=1282146114]
-
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1611468909]
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=1611468909 node_paths=PackedStringArray("mesh")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_jw3tu")
+mesh = NodePath("CollisionShape3D/MeshInstance3D")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=962073824]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=962073824]
 shape = SubResource("SphereShape3D_qa6nv")
 debug_fill = false
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/CollisionShape3D" unique_id=304374789]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=304374789]
 mesh = SubResource("SphereMesh_pxd2d")
