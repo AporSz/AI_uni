@@ -15,7 +15,7 @@ func _ready():
 	pitch = rotation.x
 	yaw = rotation.y
 
-func _input(event):
+func _unhandled_input(event):
 	# Handle mouse movement for looking around
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		yaw -= event.relative.x * mouse_sensitivity

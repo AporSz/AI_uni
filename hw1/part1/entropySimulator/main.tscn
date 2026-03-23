@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://djkhdus4y3okx" path="res://spawner.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c523c1jncc02b" path="res://scenes/particle.tscn" id="4_1bvp3"]
 [ext_resource type="Script" uid="uid://dpx2mp5l71oot" path="res://gridvisualiser.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://pp2pps4abtws" path="res://dashboardui.gd" id="6_7mycd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
 transparency = 1
@@ -50,3 +51,31 @@ script = ExtResource("5_lquwl")
 spawner_node = NodePath("../spawner")
 color_cold = Color(0, 0.2, 0.5019608, 0.3137255)
 color_hot = Color(1, 0, 0, 0.3137255)
+
+[node name="dashboardui" type="CanvasLayer" parent="." unique_id=783173206 node_paths=PackedStringArray("spawner")]
+script = ExtResource("6_7mycd")
+spawner = NodePath("../spawner")
+
+[node name="PanelContainer" type="PanelContainer" parent="dashboardui" unique_id=1909375819]
+offset_right = 441.0
+offset_bottom = 125.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="dashboardui/PanelContainer" unique_id=1900645686]
+layout_mode = 2
+
+[node name="countlabel" type="Label" parent="dashboardui/PanelContainer/VBoxContainer" unique_id=1061969540]
+layout_mode = 2
+
+[node name="countslider" type="HSlider" parent="dashboardui/PanelContainer/VBoxContainer" unique_id=48459964]
+layout_mode = 2
+
+[node name="speedlabel" type="Label" parent="dashboardui/PanelContainer/VBoxContainer" unique_id=203339358]
+layout_mode = 2
+
+[node name="speedslider" type="HSlider" parent="dashboardui/PanelContainer/VBoxContainer" unique_id=507885063]
+layout_mode = 2
+
+[node name="restartbutton" type="Button" parent="dashboardui/PanelContainer/VBoxContainer" unique_id=608528908]
+layout_mode = 2
+text = "Restart
+"

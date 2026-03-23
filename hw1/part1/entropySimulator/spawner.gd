@@ -1,34 +1,43 @@
 extends Node3D
 
 @export var particle_scene: PackedScene
-@export var number_of_particles: int = 1000
-# Since your box is 10x10x10, an 8x8x8 spawn area keeps them safely away from the walls initially
+@export var number_of_particles: int = 100
 @export var spawn_area_size: float = 8.0 
+@export var current_speed: float = 10.0 # We added this to control the speed!
 
 func _ready():
-	# This loop runs exactly 'number_of_particles' times right when the game starts
+	spawn_all()
+
+func spawn_all():
 	for i in range(number_of_particles):
 		spawn_particle()
 
-func spawn_particle():
-	# Safety check in case you forget to assign the scene in the Inspector
-	if not particle_scene:
-		push_error("Particle Scene is missing! Please assign it in the Inspector.")
-		return
+# The UI will call this function!
+func restart_sim(new_count: int, new_speed: float):
+	number_of_particles = new_count
+	current_speed = new_speed
+	
+	# Destroy all existing particles
+	for child in get_children():
+		child.queue_free()
 		
-	# 1. Create a new copy of the particle scene
+	# Spawn the new batch
+	spawn_all()
+
+func spawn_particle():
+	if not particle_scene: return
+		
 	var new_particle = particle_scene.instantiate()
 	
-	# 2. Calculate a random position within our safe spawn area
+	# PASS THE SPEED TO THE PARTICLE BEFORE ADDING IT TO THE WORLD
+	new_particle.start_speed = current_speed 
+	
 	var half_size = spawn_area_size / 2.0
 	var random_position = Vector3(
 		randf_range(-half_size, half_size),
-		randf_range(-half_size, half_size), # Assumes your box is centered at Y = 0
+		randf_range(-half_size, half_size), 
 		randf_range(-half_size, half_size)
 	)
 	
-	# 3. Move the particle to that random position
 	new_particle.position = random_position
-	
-	# 4. Add it to the world
 	add_child(new_particle)
