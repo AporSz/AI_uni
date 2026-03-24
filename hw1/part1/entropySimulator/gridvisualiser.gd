@@ -4,10 +4,11 @@ extends MultiMeshInstance3D
 @export var total_room_size: float = 20.0
 
 # --- HEATMAP SETTINGS ---
-@export var spawner_node: Node3D # We will drag the Spawner here in the Inspector!
-@export var max_heat_threshold: int = 5 # 3 particles in a box = 100% red
-@export var color_cold: Color = Color(0.0, 0.2, 0.502, 1.0) # Faint blue
-@export var color_hot: Color = Color(1.0, 0.0, 0.0, 1.0)  # Bright semi-transparent red
+@export var spawner_node: Node3D 
+@export var max_entropy_threshold: float = 0.04 # Changed from 0.53! (0.038 is approx 5 particles out of 1000)
+@export var heat_exponent: float = 2.5 # Our exponential curve (Try 1.5 to 3.0)
+@export var color_cold: Color = Color(0.0, 0.2, 0.502, 1.0) 
+@export var color_hot: Color = Color(1.0, 0.0, 0.0, 1.0)  
 
 var sub_box_size: float
 var grid_counts: Array[int] = []
@@ -53,14 +54,12 @@ func _process(_delta):
 	grid_counts.fill(0)
 	
 	for particle in spawner_node.get_children():
-		# This ignores any random static nodes sitting in the Spawner by accident!
 		if not particle is CharacterBody3D:
 			continue
 			
 		var pos = particle.global_position
 		var shift = total_room_size / 2.0
 		
-		# CRITICAL FIX: floori() returns integers, preventing the Array crash!
 		var grid_x = floori((pos.x + shift) / sub_box_size)
 		var grid_y = floori((pos.y + shift) / sub_box_size)
 		var grid_z = floori((pos.z + shift) / sub_box_size)
@@ -69,8 +68,23 @@ func _process(_delta):
 			var index = grid_x * (n * n) + grid_y * n + grid_z
 			grid_counts[index] += 1
 			
+	var total_particles = spawner_node.get_child_count()
+	
 	for i in range(multimesh.instance_count):
 		var count = grid_counts[i]
-		var heat = min(float(count) / float(max_heat_threshold), 1.0)
-		var new_color = color_cold.lerp(color_hot, heat)
+		var entropy = 0.0
+		
+		if total_particles > 0 and count > 0:
+			var p_i = float(count) / float(total_particles)
+			entropy = -p_i * (log(p_i) / log(2.0))
+		
+		# 1. Get the linear fraction using your static threshold
+		var linear_heat = min(entropy / max_entropy_threshold, 1.0)
+		
+		# 2. Apply the exponential curve
+		var exponential_heat = pow(linear_heat, heat_exponent)
+		
+		# 3. Mix the colors
+		var new_color = color_cold.lerp(color_hot, exponential_heat)
+		
 		multimesh.set_instance_color(i, new_color)
