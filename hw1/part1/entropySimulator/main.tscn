@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://cmleke5i6q48r"]
 
 [ext_resource type="PackedScene" uid="uid://cvf33tgjh3krf" path="res://scenes/border.tscn" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://vsv3olaeqhha" path="res://freecam.gd" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://djkhdus4y3okx" path="res://spawner.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://vsv3olaeqhha" path="res://scripts/freecam.gd" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://djkhdus4y3okx" path="res://scripts/spawner.gd" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c523c1jncc02b" path="res://scenes/particle.tscn" id="4_1bvp3"]
-[ext_resource type="Script" uid="uid://dpx2mp5l71oot" path="res://gridvisualiser.gd" id="5_lquwl"]
-[ext_resource type="Script" uid="uid://pp2pps4abtws" path="res://dashboardui.gd" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://dpx2mp5l71oot" path="res://scripts/gridvisualiser.gd" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://pp2pps4abtws" path="res://scripts/dashboardui.gd" id="6_7mycd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
 transparency = 1
