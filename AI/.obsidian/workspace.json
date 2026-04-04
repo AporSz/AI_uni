@@ -8,30 +8,35 @@
         "type": "tabs",
         "children": [
           {
-            "id": "fa390b8c7f3837b4",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
-            }
-          },
-          {
-            "id": "bf8795f40a800bb3",
+            "id": "5277c6ef1e8a29fc",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Evolutionary Algorithm.md",
+                "file": "Particle Swarm Intelligence.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Evolutionary Algorithm"
+              "title": "Particle Swarm Intelligence"
+            }
+          },
+          {
+            "id": "67a04c263286bbb4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Travelling Salesman Problem.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Travelling Salesman Problem"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -192,11 +197,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "fa390b8c7f3837b4",
+  "active": "67a04c263286bbb4",
   "lastOpenFiles": [
+    "Particle Swarm Intelligence.md",
     "Evolutionary Algorithm.md",
-    "Tabu Search.md",
+    "Community Influence.md",
+    "Short Term Memory.md",
     "Travelling Salesman Problem.md",
+    "Images/Pasted image 20260320164256.png",
+    "Images/Pasted image 20260309145619.png",
+    "Images/Pasted image 20260309144843.png",
+    "Tabu Search.md",
     "Search.md",
     "Information.md",
     "Entropy.md",
@@ -210,7 +221,6 @@
     "Binary operation on  a set.md",
     "Bit.md",
     "Decision Tree.md",
-    "Images/Pasted image 20260320164256.png",
     "Predator.md",
     "Prey.md",
     "Stimulus.md",
@@ -218,11 +228,6 @@
     "Predators.md",
     "Evolution.md",
     "Gravity.md",
-    "Information Gain.md",
-    "Claude Shannon Entropy Formula.md",
-    "Fuzzy Decision Tree.md",
-    "Images/Pasted image 20260309145619.png",
-    "Images",
-    "Images/Pasted image 20260309144843.png"
+    "Images"
   ]
 }

@@ -11,4 +11,3 @@ class Point(PointAbstract):
 
     def distance(self, point):
         return math.sqrt((self.x - point.x)**2 + (self.y - point.y)**2)
-
