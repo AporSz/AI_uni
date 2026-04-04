@@ -10,7 +10,7 @@ data = dataloader.get_data()
 
 # print(data)
 
-solver1 = HillClimbing(problem = data, iterations = ITERATIONS, climbers = 100)
+solver1 = HillClimbing(problem = data, iterations = ITERATIONS, climbers = 25)
 
 results = solver1.solve()
 

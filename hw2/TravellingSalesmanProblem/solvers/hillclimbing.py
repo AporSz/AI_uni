@@ -60,6 +60,7 @@ class HillClimbing(BaseSolver):
             self._best_values[i] = []
             f = self.fitness(candidates[i])
             self._best_values[i].append(f)
+
         for i in range(self._iterations):
             for j in range(self._climbers):
                 c, f = self.climb(candidates[j])
