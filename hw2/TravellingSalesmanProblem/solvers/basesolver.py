@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+import random
+import numpy as np
 
 class BaseSolver(ABC):
     def __init__(self, problem):
@@ -13,5 +15,17 @@ class BaseSolver(ABC):
 
         return f
 
+    def generate_random(self):
+        numbers = np.arange(1, len(self._problem)+1).tolist()
+
+        arr = []
+        while len(numbers) != 0:
+            n = random.randint(0, len(numbers)-1)
+            arr.append(numbers[n])
+            numbers.pop(n)
+
+        return arr
+
+    @abstractmethod
     def solve(self):
         pass

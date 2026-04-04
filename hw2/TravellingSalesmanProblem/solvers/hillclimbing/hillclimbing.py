@@ -1,5 +1,4 @@
-import random
-import numpy as np
+from abc import abstractmethod
 
 from hw2.TravellingSalesmanProblem.solvers.basesolver import BaseSolver
 
@@ -11,27 +10,6 @@ class HillClimbing(BaseSolver):
         self._best_values = {}
         self._climbers = climbers
 
-    def generate_random(self):
-        numbers = np.arange(1, len(self._problem)+1).tolist()
-
-        arr = []
-        while len(numbers) != 0:
-            n = random.randint(0, len(numbers)-1)
-            arr.append(numbers[n])
-            numbers.pop(n)
-
-        return arr
-
-    def generate_neighbors(self, candidate):
-        neighbors = []
-        for i in range(len(self._problem)-1):
-            c = candidate.copy()
-            c[i] += c[i+1]
-            c[i+1] = c[i] - c[i+1]
-            c[i] = c[i] - c[i+1]
-            neighbors.append(c)
-
-        return neighbors
 
     def generate_climbers(self):
         climbers = {}
@@ -39,6 +17,10 @@ class HillClimbing(BaseSolver):
             climbers[i] = self.generate_random()
 
         return climbers
+
+    @abstractmethod
+    def generate_neighbors(self, candidate):
+        pass
 
     def climb(self, candidate):
         neighbors = self.generate_neighbors(candidate)
