@@ -12,8 +12,8 @@ data = dataloader.get_data()
 # print(data)
 
 solver1 = SimpleNeighborSwapHillclimbing(problem = data, iterations = ITERATIONS, climbers = 25)
-solver2 = RandomSwapHillclimbing(problem = data, iterations = ITERATIONS, climbers = 25)
-solver3 = SegmentReversalHillclimbing(problem = data, iterations = ITERATIONS, climbers = 25)
+solver2 = RandomSwapHillclimbing(problem = data, iterations = ITERATIONS * 2, climbers = 25)
+solver3 = SegmentReversalHillclimbing(problem = data, iterations = ITERATIONS * 3, climbers = 25)
 
 results = solver1.solve()
 
