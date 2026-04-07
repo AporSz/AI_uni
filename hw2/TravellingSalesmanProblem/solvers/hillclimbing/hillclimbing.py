@@ -48,8 +48,7 @@ class HillClimbing(BaseSolver):
                 c, f = self.climb(candidates[j])
                 if c is not None:
                     candidates[j] = c
-                    self._best_values[j].append(f)
-                else:
-                    self._best_values[j].append(f)
+
+                self._best_values[j].append(f)
 
         return self._best_values
