@@ -4,7 +4,7 @@ from hw2.TravellingSalesmanProblem.solvers.basesolver import BaseSolver
 
 
 class HillClimbing(BaseSolver):
-    def __init__(self, problem, iterations=100, climbers=10):
+    def __init__(self, problem, iterations = 100, climbers = 10):
         super().__init__(problem)
         self._iterations = iterations
         self._best_values = {}

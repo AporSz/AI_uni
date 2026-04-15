@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Machine Learning.md",
+                "file": "Evolutionary Algorithm.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Machine Learning"
+              "title": "Evolutionary Algorithm"
             }
           }
         ]
@@ -184,6 +184,8 @@
   },
   "active": "5277c6ef1e8a29fc",
   "lastOpenFiles": [
+    "KGB search.md",
+    "Evolutionary Algorithm.md",
     "Machine Learning.md",
     "CPU.md",
     "Stimulus.md",
@@ -194,7 +196,6 @@
     "Travelling Salesman Problem.md",
     "Prey.md",
     "Predator.md",
-    "Evolutionary Algorithm.md",
     "Community Influence.md",
     "Short Term Memory.md",
     "Images/Pasted image 20260320164256.png",
@@ -212,7 +213,6 @@
     "Bell Curve.md",
     "Binary operation on  a set.md",
     "Bit.md",
-    "Decision Tree.md",
     "Images"
   ]
 }
