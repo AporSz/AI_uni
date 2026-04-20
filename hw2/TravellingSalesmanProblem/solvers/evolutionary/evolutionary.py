@@ -117,7 +117,7 @@ class EvolutionaryVariantRandom(EvolutionarySolver):
 
         return population[a], population[b]
     
-class EvolutionaryVariantChances(EvolutionarySolver):
+class EvolutionaryVariantChances(EvolutionaryVariantRandom):
     def reproduce(self, parent1, parent2):
         if len(parent1) != len(parent2):
             raise ValueError("The parents must have the same length")

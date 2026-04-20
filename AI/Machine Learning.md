@@ -19,3 +19,5 @@ Feed Forward of Information:
 
 Back Propagation of Errors:
 - you change the trust weight of each input to correct the [[Error]]s
+
+The problem machine learning has is that data is represented digitally. Which means it has finite accuracy. This can lead to loss of information. This might be solved by quantum computers.
