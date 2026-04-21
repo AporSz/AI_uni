@@ -117,7 +117,7 @@ class EvolutionaryVariantRandom(EvolutionarySolver):
 
         return population[a], population[b]
     
-class EvolutionaryVariantChances(EvolutionaryVariantRandom):
+class EvolutionaryVariantChances(EvolutionarySolver):
     def reproduce(self, parent1, parent2):
         if len(parent1) != len(parent2):
             raise ValueError("The parents must have the same length")
@@ -139,3 +139,39 @@ class EvolutionaryVariantChances(EvolutionaryVariantRandom):
             ch1, ch2 = self.reproduce(p1, p2)
             population.append(ch1)
             population.append(ch2)
+
+class ChernobylKids(EvolutionarySolver):
+    # def mutate_population(self, population):
+    #     for i in range(len(population)//2, len(population)):
+    #         self.mutate(population[i])
+
+    def reproduce(self, parent1, parent2):
+        if len(parent1) != len(parent2):
+            raise ValueError("The parents must have the same length")
+        
+        child = np.zeros(len(parent1)).tolist()
+        
+        a = random.randint(0, len(parent1) - 1)
+        b = random.randint(0, len(parent1) - 1)
+        while a == b:
+            b = random.randint(0, len(parent1) - 1)
+
+        if a > b:
+            a = a + b
+            b = a - b
+            a = a - b
+
+        for i in range(a, b):
+            child[i - a] = parent1[i]
+
+        parent2_genes = []
+
+        for i in range(len(parent2)):
+            if parent2[i] not in child:
+                parent2_genes.append(parent2[i])
+
+        aux = len(child) - len(parent2_genes)
+        for i in range(len(parent2_genes)):
+            child[aux + i] = parent2_genes[i]
+
+        return child

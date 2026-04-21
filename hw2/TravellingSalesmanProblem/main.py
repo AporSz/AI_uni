@@ -7,7 +7,7 @@ from hw2.TravellingSalesmanProblem.solvers.hillclimbing.simulated_annealing impo
 from hw2.TravellingSalesmanProblem.solvers.hillclimbing.tabusearch import TabuSearchHillClimbing
 from hw2.TravellingSalesmanProblem.utils.data_loader import DataLoader
 
-ITERATIONS = 5000
+ITERATIONS = 1000
 
 dataloader = DataLoader('hw2/TravellingSalesmanProblem/data/berlin52.tsp')
 data = dataloader.get_data()
@@ -17,8 +17,6 @@ data = dataloader.get_data()
 # solver1 = SimpleNeighborSwapHillclimbing(problem = data, iterations = ITERATIONS, climbers = 25)
 # solver2 = RandomSwapHillclimbing(problem = data, iterations = ITERATIONS * 5, climbers = 25)
 # solver3 = SegmentReversalHillclimbing(problem = data, iterations = ITERATIONS * 5, climbers = 25)
-
-# solver = SimulatedAnnealing(problem = data, iterations = ITERATIONS, climbers = 25)
 
 # results = solver1.solve()
 #
@@ -41,6 +39,7 @@ data = dataloader.get_data()
 
 # plt.show()
 
+# solver = SimulatedAnnealing(problem = data, iterations = ITERATIONS, climbers = 25)
 # results = solver.solve()
 
 # m = 30000
@@ -56,7 +55,7 @@ data = dataloader.get_data()
 
 
 # solver = EvolutionarySolver(problem = data, iterations = ITERATIONS, population_size = 100, mutation_rate = 0.1, sample_size = 75)
-solver = EvolutionaryVariantChances(problem = data, iterations = ITERATIONS, population_size = 100, mutation_rate = 0.01, sample_size = 35)
+solver = ChernobylKids(problem = data, iterations = ITERATIONS, population_size = 100, mutation_rate = 0.1, sample_size = 75)
 
 
 results = solver.solve()
