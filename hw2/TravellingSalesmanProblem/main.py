@@ -72,7 +72,7 @@ data = dataloader.get_data()
 #
 # print(m)
 
-solver = KGBSolver(problem=data, iterations=ITERATIONS, tree_height=2, nr_of_children=100)
+solver = KGBSolver(problem=data, iterations=ITERATIONS, tree_height=4, nr_of_children=4)
 solver.solve()
 
 # h = 3

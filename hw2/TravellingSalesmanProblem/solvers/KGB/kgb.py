@@ -46,6 +46,7 @@ class Tree:
 
 
     def generate_tree(self, height):
+        #simulated annealing goes hard
         if self._level == height:
             self._value = self._solver.generate_random()
             return self._value
