@@ -2,14 +2,12 @@ from abc import abstractmethod
 
 from hw2.TravellingSalesmanProblem.solvers.basesolver import BaseSolver
 
-
 class HillClimbing(BaseSolver):
     def __init__(self, problem, iterations = 100, climbers = 10):
         super().__init__(problem)
         self._iterations = iterations
         self._best_values = {}
         self._climbers = climbers
-
 
     def generate_climbers(self):
         climbers = {}

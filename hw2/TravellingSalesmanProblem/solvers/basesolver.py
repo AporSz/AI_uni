@@ -2,6 +2,16 @@ from abc import ABC, abstractmethod
 import random
 import numpy as np
 
+
+def validate(candidate):
+    s = set()
+    for i in range(len(candidate) - 1):
+        if candidate[i] not in s:
+            s.add(candidate[i])
+        else:
+            raise Exception("Can't visit the same location twice")
+
+
 class BaseSolver(ABC):
     def __init__(self, problem):
         self._problem = problem

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+from hw2.TravellingSalesmanProblem.solvers.KGB.kgb import Tree, KGBSolver
 from hw2.TravellingSalesmanProblem.solvers.evolutionary.evolutionary import *
 from hw2.TravellingSalesmanProblem.solvers.hillclimbing.simple_hillclimbing import SimpleNeighborSwapHillclimbing, \
     RandomSwapHillclimbing, SegmentReversalHillclimbing
@@ -9,7 +10,7 @@ from hw2.TravellingSalesmanProblem.utils.data_loader import DataLoader
 
 ITERATIONS = 1000
 
-dataloader = DataLoader('hw2/TravellingSalesmanProblem/data/berlin52.tsp')
+dataloader = DataLoader('data/berlin52.tsp')
 data = dataloader.get_data()
 
 # print(data)
@@ -55,18 +56,29 @@ data = dataloader.get_data()
 
 
 # solver = EvolutionarySolver(problem = data, iterations = ITERATIONS, population_size = 100, mutation_rate = 0.1, sample_size = 75)
-solver = ChernobylKids(problem = data, iterations = ITERATIONS, population_size = 100, mutation_rate = 0.1, sample_size = 75)
+# solver = ChernobylKids(problem = data, iterations = ITERATIONS, population_size = 100, mutation_rate = 0.1, sample_size = 15)
+#
+#
+# results = solver.solve()
+#
+# m = 30000
+# for i in results:
+#     mres = min(*results[i])
+#     if mres < m:
+#         m = mres
+#     plt.plot(results[i])
+#
+# plt.show()
+#
+# print(m)
 
+solver = KGBSolver(problem=data, iterations=ITERATIONS, tree_height=2, nr_of_children=100)
+solver.solve()
 
-results = solver.solve()
-
-m = 30000
-for i in results:
-    mres = min(*results[i])
-    if mres < m:
-        m = mres
-    plt.plot(results[i])
-
-plt.show()
-
-print(m)
+# h = 3
+# n = 3
+#
+# tree = Tree(None, 1, 5, solver)
+# tree.generate_tree(h)
+# for i in range(200):
+#     print(solver.fitness(tree.regenerate(n, h)))

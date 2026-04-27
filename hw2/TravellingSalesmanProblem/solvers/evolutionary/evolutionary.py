@@ -2,7 +2,8 @@ from abc import abstractmethod
 import random
 import numpy as np
 
-from hw2.TravellingSalesmanProblem.solvers.basesolver import BaseSolver
+from hw2.TravellingSalesmanProblem.solvers.basesolver import BaseSolver, validate
+
 
 class EvolutionarySolver(BaseSolver):
     def __init__(self, problem, iterations = 100, population_size = 100, mutation_rate = 1, sample_size = 25):
@@ -49,6 +50,7 @@ class EvolutionarySolver(BaseSolver):
             self.cycle_population(population)
             for j in range(self._top):
                 self._best_values[j].append(self.fitness(population[j]))
+                # validate(population[j])
 
         return self._best_values
 
@@ -117,7 +119,7 @@ class EvolutionaryVariantRandom(EvolutionarySolver):
 
         return population[a], population[b]
     
-class EvolutionaryVariantChances(EvolutionarySolver):
+class EvolutionaryVariant(EvolutionarySolver):
     def reproduce(self, parent1, parent2):
         if len(parent1) != len(parent2):
             raise ValueError("The parents must have the same length")
