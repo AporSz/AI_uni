@@ -103,60 +103,22 @@ class Tree:
 
         return string
 
-# all 52 x 52 neighbors
-# def neighborhood(candidate):
-#     neighbors = []
-#     for i in range(len(candidate)):
-#         for j in range(i + 1, len(candidate)):
-#             c = candidate.copy()
-#             if i != j:
-#                 aux = c[i]
-#                 c[i] = c[j]
-#                 c[j] = aux
-
-#             neighbors.append(c)
-#     return neighbors
-
-# swapping random elements
-# def neighborhood(candidate):
-#     neighbors = []
-#     for i in range(len(candidate)):
-#         c = candidate.copy()
-#         r = random.randint(0, len(candidate)-1)
-#         while r == i:
-#             r = random.randint(0, len(candidate)-1)
-#         c[i] += c[r]
-#         c[r] = c[i] - c[r]
-#         c[i] = c[i] - c[r]
-#         neighbors.append(c)
-
-#     return neighbors
-
-# reversing random segments
-def neighborhood(candidate):
-    neighbors = []
-    for i in range(len(candidate)):
-        c = candidate.copy()
-        r = random.randint(0, len(candidate) - 1)
-        while r == i:
-            r = random.randint(0, len(candidate) - 1)
-
-        a = min(i, r)
-        b = max(i, r)
-        segment = c[a:b]
-        segment.reverse()
-        c = c[:a] + segment + c[b:]
-
-        neighbors.append(c)
-
-    return neighbors
-
 class KGBSolver(BaseSolver):
     def __init__(self, problem, iterations = 100, tree_height = 5, nr_of_children = 5):
         BaseSolver.__init__(self, problem)
         self._iterations = iterations
         self._tree_height = tree_height
         self._nr_of_children = nr_of_children
+        self._tabu = set()
+
+    def tabu(self, candidate):
+        t = tuple(candidate)
+
+        if t in self._tabu:
+            return False
+
+        self._tabu.add(t)
+        return True
 
     def solve(self):
         tree = Tree(None, 1, nr_of_children = self._nr_of_children, solver = self)
@@ -166,7 +128,7 @@ class KGBSolver(BaseSolver):
         solution = None
 
         for i in range(self._iterations):
-            ratio = 0.5
+            ratio = 0.25
             # ratio = 1 - i / self._iterations
             v = tree.regenerate(int(self._nr_of_children * ratio), self._tree_height)
             f = self.fitness(v)
@@ -180,17 +142,76 @@ class KGBSolver(BaseSolver):
         print("Valid: " + str(validate(solution)))
         print(best)
         print(solution)
+        with (open("crazy.txt", "a") as file):
+            file.write(str(best))
+            file.write(str("\n"))
+            file.write(str(solution))
+            file.write(str("\n"))
+            file.write("=================================================================================\n")
 
     def climb(self, candidate):
-        neighbors = neighborhood(candidate)
+        neighbors = self.neighborhood(candidate)
 
         m = 100000
         v = candidate
 
         for n in neighbors:
             f = self.fitness(n)
-            if f < m:
+            if f < m :
                 m = f
                 v = n
 
         return v
+    
+    # all 52 x 52 neighbors
+    # def neighborhood(self, candidate):
+    #     neighbors = []
+    #     for i in range(len(candidate)):
+    #         for j in range(i + 1, len(candidate)):
+    #             c = candidate.copy()
+    #             if i != j:
+    #                 aux = c[i]
+    #                 c[i] = c[j]
+    #                 c[j] = aux
+
+    #             if self.tabu(c):
+    #                 neighbors.append(c)
+    #     return neighbors
+
+    # swapping random elements
+    # def neighborhood(self, candidate):
+    #     neighbors = []
+    #     for i in range(len(candidate)):
+    #         c = candidate.copy()
+    #         r = random.randint(0, len(candidate)-1)
+    #         while r == i:
+    #             r = random.randint(0, len(candidate)-1)
+    #         c[i] += c[r]
+    #         c[r] = c[i] - c[r]
+    #         c[i] = c[i] - c[r]
+    #         if self.tabu(c):
+    #             neighbors.append(c)
+
+    #     return neighbors
+
+    # reversing random segments
+    def neighborhood(self, candidate):
+        neighbors = []
+        for i in range(len(candidate)):
+            c = candidate.copy()
+            r = random.randint(0, len(candidate) - 1)
+            while r == i:
+                r = random.randint(0, len(candidate) - 1)
+
+            a = min(i, r)
+            b = max(i, r)
+            segment = c[a:b]
+            segment.reverse()
+            c = c[:a] + segment + c[b:]
+
+            # if self.tabu(c):
+            #     neighbors.append(c)
+
+            neighbors.append(c)
+
+        return neighbors
