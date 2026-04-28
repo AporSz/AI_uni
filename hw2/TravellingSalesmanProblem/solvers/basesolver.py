@@ -8,6 +8,7 @@ def validate(candidate):
     for i in range(len(candidate) - 1):
         if candidate[i] not in s:
             s.add(candidate[i])
+            return True
         else:
             raise Exception("Can't visit the same location twice")
 

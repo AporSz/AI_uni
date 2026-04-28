@@ -1,19 +1,27 @@
-from hw2.TravellingSalesmanProblem.solvers.basesolver import BaseSolver
+import random
+
+from hw2.TravellingSalesmanProblem.solvers.basesolver import BaseSolver, validate
 
 
 class Tree:
-    def __init__(self, value, level, nr_of_children, solver, children = None):
+    def __init__(self, value, level, nr_of_children, solver, health = 5, children = None):
         self._value = value
         self._level = level
         self._children = children
         self._nr_of_children = nr_of_children
         self._solver = solver
+        self._health = health
+
+    def decrease_health(self, number):
+        self._health = self._health - number
+        if  self._health <= 0:
+            return False
+        
+        return True
 
     def regenerate(self, number, height):
         if self._level == height:
             self._value = self._solver.climb(self._value)
-            return self._value
-            self._value = self._solver.generate_random()
             return self._value
 
         # if self._children is None:
@@ -26,17 +34,33 @@ class Tree:
 
         m = 100000
 
-        for i in range(number):
-            child = Tree(None, self._level + 1, self._nr_of_children, self._solver)
-            v = child.generate_tree(height)
-            f = self._solver.fitness(v)
-            if f < m:
-                m = f
-                self._value = v
-            self._children[i] = child
+        # for i in range(number):
+        #     child = Tree(None, self._level + 1, self._nr_of_children, self._solver)
+        #     v = child.generate_tree(height)
+        #     f = self._solver.fitness(v)
+        #     if f < m:
+        #         m = f
+        #         self._value = v
+        #     self._children[i] = child
 
-        for i in range(number, self._nr_of_children):
-            v = self._children[i].regenerate(number, height)
+        # for i in range(number, self._nr_of_children):
+        #     v = self._children[i].regenerate(number, height)
+        #     f = self._solver.fitness(v)
+        #     if f < m:
+        #         m = f
+        #         self._value = v
+
+        for i in range(self._nr_of_children):
+            if i < number:
+                if self._children[i].decrease_health(1):
+                    v = self._children[i].regenerate(number, height)
+                else:
+                    child = Tree(None, self._level + 1, self._nr_of_children, self._solver, (height - (self._level + 1)) * 5)
+                    v = child.generate_tree(height)
+                    self._children[i] = child
+            else:
+                v = self._children[i].regenerate(number, height)
+
             f = self._solver.fitness(v)
             if f < m:
                 m = f
@@ -54,7 +78,7 @@ class Tree:
             self._children = []
             m = 100000
             for i in range(self._nr_of_children):
-                child = Tree(None, self._level + 1, self._nr_of_children, self._solver)
+                child = Tree(None, self._level + 1, self._nr_of_children, self._solver, (height - (self._level + 1)) * 5)
                 v = child.generate_tree(height)
                 f = self._solver.fitness(v)
                 if f < m:
@@ -79,18 +103,52 @@ class Tree:
 
         return string
 
+# all 52 x 52 neighbors
+# def neighborhood(candidate):
+#     neighbors = []
+#     for i in range(len(candidate)):
+#         for j in range(i + 1, len(candidate)):
+#             c = candidate.copy()
+#             if i != j:
+#                 aux = c[i]
+#                 c[i] = c[j]
+#                 c[j] = aux
 
+#             neighbors.append(c)
+#     return neighbors
+
+# swapping random elements
+# def neighborhood(candidate):
+#     neighbors = []
+#     for i in range(len(candidate)):
+#         c = candidate.copy()
+#         r = random.randint(0, len(candidate)-1)
+#         while r == i:
+#             r = random.randint(0, len(candidate)-1)
+#         c[i] += c[r]
+#         c[r] = c[i] - c[r]
+#         c[i] = c[i] - c[r]
+#         neighbors.append(c)
+
+#     return neighbors
+
+# reversing random segments
 def neighborhood(candidate):
     neighbors = []
     for i in range(len(candidate)):
-        for j in range(len(candidate)):
-            c = candidate.copy()
-            if i != j:
-                aux = c[i]
-                c[i] = c[j]
-                c[j] = aux
+        c = candidate.copy()
+        r = random.randint(0, len(candidate) - 1)
+        while r == i:
+            r = random.randint(0, len(candidate) - 1)
 
-            neighbors.append(c)
+        a = min(i, r)
+        b = max(i, r)
+        segment = c[a:b]
+        segment.reverse()
+        c = c[:a] + segment + c[b:]
+
+        neighbors.append(c)
+
     return neighbors
 
 class KGBSolver(BaseSolver):
@@ -103,10 +161,25 @@ class KGBSolver(BaseSolver):
     def solve(self):
         tree = Tree(None, 1, nr_of_children = self._nr_of_children, solver = self)
         tree.generate_tree(self._tree_height)
+        
+        best = 100000
+        solution = None
 
         for i in range(self._iterations):
-            v = tree.regenerate(self._nr_of_children//2, self._tree_height)
+            ratio = 0.5
+            # ratio = 1 - i / self._iterations
+            v = tree.regenerate(int(self._nr_of_children * ratio), self._tree_height)
+            f = self.fitness(v)
+            if f < best:
+                best = f
+                solution = v
             print(self.fitness(v))
+
+        
+        print("===================")
+        print("Valid: " + str(validate(solution)))
+        print(best)
+        print(solution)
 
     def climb(self, candidate):
         neighbors = neighborhood(candidate)
