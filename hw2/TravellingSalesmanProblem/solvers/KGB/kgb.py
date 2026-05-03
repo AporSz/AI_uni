@@ -32,7 +32,8 @@ class Tree:
 
         self._children.sort(key=lambda x: self._solver.fitness(x._value), reverse=True)
 
-        m = 100000
+        # m = 100000 # for not directly increasing values
+        m = self._solver.fitness(self._value)
 
         # for i in range(number):
         #     child = Tree(None, self._level + 1, self._nr_of_children, self._solver)
@@ -142,7 +143,8 @@ class KGBSolver(BaseSolver):
         print("Valid: " + str(validate(solution)))
         print(best)
         print(solution)
-        with (open("crazy.txt", "a") as file):
+        with (open("../../crazy.txt", "a") as file):
+        # with (open("crazy.txt", "a") as file):
             file.write(str(best))
             file.write(str("\n"))
             file.write(str(solution))

@@ -8,10 +8,10 @@ from hw2.TravellingSalesmanProblem.solvers.hillclimbing.simulated_annealing impo
 from hw2.TravellingSalesmanProblem.solvers.hillclimbing.tabusearch import TabuSearchHillClimbing
 from hw2.TravellingSalesmanProblem.utils.data_loader import DataLoader
 
-ITERATIONS = 1000
+ITERATIONS = 10000
 
-# dataloader = DataLoader('data/berlin52.tsp')
-dataloader = DataLoader('hw2/TravellingSalesmanProblem/data/berlin52.tsp')
+dataloader = DataLoader('data/berlin52.tsp')
+# dataloader = DataLoader('hw2/TravellingSalesmanProblem/data/berlin52.tsp')
 
 data = dataloader.get_data()
 
