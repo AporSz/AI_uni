@@ -8,7 +8,7 @@ from hw2.TravellingSalesmanProblem.solvers.hillclimbing.simulated_annealing impo
 from hw2.TravellingSalesmanProblem.solvers.hillclimbing.tabusearch import TabuSearchHillClimbing
 from hw2.TravellingSalesmanProblem.utils.data_loader import DataLoader
 
-ITERATIONS = 10000
+ITERATIONS = 1000
 
 dataloader = DataLoader('data/berlin52.tsp')
 # dataloader = DataLoader('hw2/TravellingSalesmanProblem/data/berlin52.tsp')
@@ -42,20 +42,11 @@ data = dataloader.get_data()
 
 # plt.show()
 
-# solver = SimulatedAnnealing(problem = data, iterations = ITERATIONS, climbers = 25)
-# results = solver.solve()
+solver = SimulatedAnnealing(problem = data, iterations = ITERATIONS, climbers = 25)
+results = solver.solve()
 
-# m = 30000
-# for i in results:
-#     mres = min(*results[i])
-#     if mres < m:
-#         m = mres
-#     plt.plot(results[i])
-
-# plt.show()
-
-# print(m)
-
+for i in results:
+    plt.plot(results[i], color = 'blue')
 
 # solver = EvolutionarySolver(problem = data, iterations = ITERATIONS, population_size = 100, mutation_rate = 0.1, sample_size = 75)
 # solver = ChernobylKids(problem = data, iterations = ITERATIONS, population_size = 100, mutation_rate = 0.1, sample_size = 15)
@@ -75,7 +66,11 @@ data = dataloader.get_data()
 # print(m)
 
 solver = KGBSolver(problem=data, iterations=ITERATIONS, tree_height=4, nr_of_children=4)
-solver.solve()
+results = solver.solve()
+
+plt.plot(results, color = 'red')
+
+plt.show()
 
 # h = 3
 # n = 3

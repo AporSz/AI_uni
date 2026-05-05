@@ -2,6 +2,7 @@ import random
 
 from hw2.TravellingSalesmanProblem.solvers.basesolver import BaseSolver, validate
 
+results = []
 
 class Tree:
     def __init__(self, value, level, nr_of_children, solver, health = 5, children = None):
@@ -137,8 +138,8 @@ class KGBSolver(BaseSolver):
                 best = f
                 solution = v
             print(self.fitness(v))
+            results.append(f)
 
-        
         print("===================")
         print("Valid: " + str(validate(solution)))
         print(best)
@@ -150,6 +151,8 @@ class KGBSolver(BaseSolver):
             file.write(str(solution))
             file.write(str("\n"))
             file.write("=================================================================================\n")
+
+        return results
 
     def climb(self, candidate):
         neighbors = self.neighborhood(candidate)
