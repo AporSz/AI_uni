@@ -6,7 +6,7 @@ Made of neurons that have:
 - [[Activation Function]]: f
 - output: 
 	- o = f(a)
-	- a = w0x0 + 21x1 + ... + wnxn
+	- a = w0x0 + w1x1 + ... + wnxn
 
 - activation degree: the value of the activation function
 

@@ -1,3 +1,5 @@
+A finite set of input and output variables.
+
 You can represent a problem with the following:
 	P = {Vi belongs to DVi}
 

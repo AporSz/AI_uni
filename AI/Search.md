@@ -52,4 +52,4 @@ OR
 
 - exhaustive
 OR
-- heuristic, stochastic
+- heuristic, stochastic -> optimization problems
