@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from hw2.TravellingSalesmanProblem.models.PointAbstract import PointAbstract
 
-@dataclass
+@dataclass(order=True)
 class Point(PointAbstract):
     x: float
     y: float
