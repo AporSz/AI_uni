@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Machine Learning.md",
+                "file": "Deep Learning.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Machine Learning"
+              "title": "Deep Learning"
             }
           },
           {
@@ -240,8 +240,9 @@
   },
   "active": "5277c6ef1e8a29fc",
   "lastOpenFiles": [
-    "Mark I Perceptron.md",
     "Machine Learning.md",
+    "Information.md",
+    "Mark I Perceptron.md",
     "Search.md",
     "File.md",
     "Process.md",
@@ -262,7 +263,6 @@
     "Number Sets.md",
     "Evolutionary Algorithm.md",
     "KGB search.md",
-    "Information.md",
     "Particle Swarm Intelligence.md",
     "Travelling Salesman Problem.md",
     "Prey.md",
