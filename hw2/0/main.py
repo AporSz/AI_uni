@@ -85,3 +85,5 @@ result_d = closest(read_file("cmap.in"))
 
 print(result_b)
 print(result_d)
+
+# https://www.geeksforgeeks.org/dsa/closest-pair-of-points-using-divide-and-conquer-algorithm/
