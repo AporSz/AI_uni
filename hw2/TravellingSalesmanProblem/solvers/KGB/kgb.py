@@ -137,7 +137,7 @@ class KGBSolver(BaseSolver):
             if f < best:
                 best = f
                 solution = v
-            print(self.fitness(v))
+            # print(self.fitness(v))
             results.append(f)
 
         print("===================")

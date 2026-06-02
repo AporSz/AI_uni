@@ -23,7 +23,12 @@ def heart_disease():
 
     calc = FuzzyEntropy(data, weights)
     # print(data)
-    print(calc.calculate_information_gain("sex"))
+    print("Information Gain for 'sex':", calc.calculate_information_gain("sex"))
+
+    print("\nBuilding Fuzzy Decision Tree...")
+    tree = calc.make_tree()
+    print("\nFuzzy Decision Tree Structure:")
+    print(tree)
 
 heart_disease()
 

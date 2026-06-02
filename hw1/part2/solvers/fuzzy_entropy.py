@@ -94,28 +94,63 @@ class FuzzyEntropy:
     def make_tree(self):
         from hw1.part2.datastructures.fuzzy_tree import FuzzyNode
 
+        # Calculate weighted class sums for the current node
+        t0 = sum(self._weights[i] for i, e in enumerate(self._data) if e['target'] == 0)
+        t1 = sum(self._weights[i] for i, e in enumerate(self._data) if e['target'] == 1)
+
+        # Determine the dominant target class
+        prediction = 0 if t0 >= t1 else 1
+
+        # Check stopping criteria
+        # 1. Pure node
+        if t0 == 0 or t1 == 0:
+            return FuzzyNode(f"Disease: {prediction}")
+
+        # 2. No attributes left to split on besides 'target'
+        available_attributes = [k for k in self._attributes if k != 'target']
+        if len(available_attributes) == 0:
+            return FuzzyNode(f"Disease: {prediction}")
+
+        # 3. Choose the best attribute based on information gain
         max_information_gain, best_attribute = 0, None
-        for attribute in self._attributes:
+        for attribute in available_attributes:
             gain = self.calculate_information_gain(attribute)
-            if gain > max_information_gain and attribute != 'target':
+            if gain > max_information_gain:
                 max_information_gain = gain
                 best_attribute = attribute
 
-        if best_attribute is None:
-            return FuzzyNode(f"Disease: {self._data[0]['target']}", {})
+        # If no positive information gain can be achieved, return a leaf node
+        if best_attribute is None or max_information_gain <= 1e-9:
+            return FuzzyNode(f"Disease: {prediction}")
 
-        tree_data = {}
-        for value in self._attributes[best_attribute]:
-            tree_data[value] = []
+        # 4. Construct children nodes recursively by branching on linguistic terms
+        terms = list(self.fu.config[best_attribute].keys())
+        child_nodes = {}
 
-        for entry in self._data:
-            aux = entry[best_attribute]
-            del entry[best_attribute]
-            tree_data[aux].append(entry)
+        for term in terms:
+            new_data = []
+            new_weights = []
+            m_func = self.fu.config[best_attribute][term]
 
-        root = FuzzyNode(best_attribute, tree_data)
+            for i, entry in enumerate(self._data):
+                m_value = m_func(entry[best_attribute])
+                w_new = self._weights[i] * m_value
 
-        return root
+                # Only propagate instances that have a significant membership degree in this branch
+                if w_new > 1e-5:
+                    entry_copy = entry.copy()
+                    del entry_copy[best_attribute]
+                    new_data.append(entry_copy)
+                    new_weights.append(w_new)
+
+            if len(new_data) > 0:
+                child_solver = FuzzyEntropy(new_data, np.array(new_weights))
+                child_nodes[term] = child_solver.make_tree()
+            else:
+                # Default leaf node if no data falls into this branch
+                child_nodes[term] = FuzzyNode(f"Disease: {prediction}")
+
+        return FuzzyNode(best_attribute, child_nodes)
 
 
     def __str__(self):

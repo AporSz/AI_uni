@@ -20,12 +20,17 @@ class DataLoader:
             return entries
         
     def get_data_heart_disease(self):
-        with open(self._path) as csvfile:
+        with open(self._path, encoding='utf-8-sig') as csvfile:
             spamreader = csv.DictReader(csvfile, delimiter=',')
             entries = []
             for row in spamreader:
+                if not row or all(v is None or v == '' for v in row.values()):
+                    continue
                 entry = {}
-                entry['age'] = int(row['ï»¿age'])
+                age_val = row.get('age') or row.get('\ufeffage') or row.get('ï»¿age')
+                if age_val is None:
+                    continue
+                entry['age'] = int(age_val)
                 entry['sex'] = int(row['sex'])
                 entry['cp'] = int(row['cp'])
                 entry['trestbps'] = int(row['trestbps'])
