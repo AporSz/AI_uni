@@ -19,16 +19,29 @@ class FuzzyEntropy:
             return None
 
         attributes = {}
-        for key, value in self._data[0].items():
-            attributes[key] = {}
+        # for key, value in self._data[0].items():
+        #     attributes[key] = []
 
-        for entry in self._data:
+        for index, entry in enumerate(self._data):
             for key, value in entry.items():
                 membership = self.fu.attribute_membership(key, value)
-                if value not in attributes[key]:
-                    attributes[key][value] = membership
-                for i in range(len(membership)):
-                    attributes[key][value][i] += membership[i]
+                if key not in attributes:
+                    if entry['target'] == 0:
+                        attributes[key] = {
+                            0: membership * self._weights[index],
+                            1: np.zeros(len(membership))
+                        }
+                    else:
+                        attributes[key] = {
+                            1: membership * self._weights[index],
+                            0: np.zeros(len(membership))
+                        }
+                else:
+                    for i in range(len(membership)):
+                        if entry['target'] == 0:
+                            attributes[key][0][i] += membership[i] * self._weights[index]
+                        else:
+                            attributes[key][1][i] += membership[i] * self._weights[index]
 
         return attributes
 
@@ -36,11 +49,28 @@ class FuzzyEntropy:
         if attribute not in self._attributes:
             raise ValueError("Attribute " + attribute + " is not present in the data")
         entropy = 0
-        n = self._weights.sum()
 
-        for key, value in self._attributes[attribute].items():
-            probability = value / n
-            entropy -= probability * np.log2(probability)
+        # for key, value in self._attributes[attribute].items():
+        #     n = value[0] + value[1]
+        #     for i, entry in enumerate(value):
+        #         probability = entry / n[i]
+        #         entropy -= probability * np.log2(probability)
+
+        n = self._attributes[attribute][0] + self._attributes[attribute][1]
+        weight = n.sum()
+        for i, entry in enumerate(self._attributes[attribute][0]):
+            probability = 0
+            if n[i] != 0:
+                probability = entry / n[i]
+            if probability > 0:
+                entropy -= probability * np.log2(probability) * (n[i] / weight)
+
+        for i, entry in enumerate(self._attributes[attribute][1]):
+            probability = 0
+            if n[i] != 0:
+                probability = entry / n[i]
+            if probability > 0:
+                entropy -= probability * np.log2(probability) * (n[i] / weight)
 
         return entropy
 

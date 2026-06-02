@@ -22,9 +22,10 @@ def heart_disease():
     weights = np.ones(len(data))
 
     calc = FuzzyEntropy(data, weights)
+    # print(data)
     print(calc.get_attributes())
 
 heart_disease()
 
-fu = FuzzyUtils()
-print(fu.attribute_membership("age", 40))
+# fu = FuzzyUtils()
+# print(fu.attribute_membership("age", 40))

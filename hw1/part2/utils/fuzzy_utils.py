@@ -25,7 +25,7 @@ class FuzzyUtils:
         for _ , func in self.config[attribute].items():
             arr.append(func(value))
 
-        return arr
+        return np.array(arr)
 
 config = {
             "age": {
