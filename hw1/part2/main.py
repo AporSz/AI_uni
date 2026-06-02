@@ -23,7 +23,7 @@ def heart_disease():
 
     calc = FuzzyEntropy(data, weights)
     # print(data)
-    print(calc.get_attributes())
+    print(calc.calculate_information_gain("sex"))
 
 heart_disease()
 

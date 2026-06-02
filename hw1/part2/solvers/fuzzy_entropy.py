@@ -74,25 +74,22 @@ class FuzzyEntropy:
 
         return entropy
 
+    def base_entropy(self):
+        t0 = sum(self._weights[i] for i, e in enumerate(self._data) if e['target'] == 0)
+        t1 = sum(self._weights[i] for i, e in enumerate(self._data) if e['target'] == 1)
+        total = t0 + t1
+        entropy = 0
+        for count in [t0, t1]:
+            p = count / total
+            if p > 0:
+                entropy -= p * np.log2(p)
+        return entropy
+
     def calculate_information_gain(self, attribute):
         if attribute not in self._attributes:
             raise ValueError("Attribute " + attribute + " is not present in the data")
 
-        gain = self.calculate_entropy('target')
-        n = len(self._data)
-
-        for value, count in self._attributes[attribute].items():
-            mini_data = []
-            for entry in self._data:
-                if entry[attribute] == value:
-                    mini_data.append(entry)
-
-            mini_calculator = FuzzyEntropy(mini_data)
-            mini_entropy = mini_calculator.calculate_entropy('target')
-
-            gain = gain - ((count / n) * mini_entropy)
-
-        return gain
+        return self.base_entropy() - self.calculate_entropy(attribute)
 
     def make_tree(self):
         from hw1.part2.datastructures.fuzzy_tree import FuzzyNode
