@@ -146,7 +146,7 @@ def plot_all(data, iterations):
     plt.tight_layout()
 
     # Save to file
-    filename = "tsp_solver_comparison_100.png"
+    filename = "plots/tsp_solver_comparison_100_v1.png"
     plt.savefig(filename, bbox_inches='tight', dpi=300)
     print(f"\n[TSP Plotter] Comparison plot successfully saved as '{filename}'")
 
